@@ -1,0 +1,18 @@
+terms:
+  - source: StationOS Pro
+    note: Product name; never translate.
+    translations:
+      en: StationOS Pro
+  - source: Next.js
+    note: Framework name; never translate.
+    translations:
+      en: Next.js
+  - source: Fumadocs
+    note: Framework name; never translate.
+    translations:
+      en: Fumadocs
+  - source: GitHub
+    note: Product name; never translate.
+    translations:
+      en: GitHub
+

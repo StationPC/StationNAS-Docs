@@ -5,6 +5,12 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "i18n:check": "node scripts/i18n.mjs check",
+    "i18n:check:release": "I18N_REQUIRE_APPROVED_HIGH_RISK=1 node scripts/i18n.mjs check",
+    "i18n:extract": "node scripts/i18n.mjs extract",
+    "i18n:render": "node scripts/i18n.mjs render",
+    "i18n:sync": "node scripts/i18n.mjs sync",
+    "i18n:test": "node --test scripts/i18n.test.mjs",
     "start": "next start",
     "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
     "postinstall": "fumadocs-mdx"
@@ -17,7 +23,8 @@
     "next": "16.2.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.0",
@@ -26,7 +33,12 @@
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "postcss": "^8.5.15",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx": "^3.1.1",
+    "remark-parse": "^11.0.0",
     "tailwindcss": "^4.3.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "unified": "^11.0.5",
+    "yaml": "^2.9.0"
   }
 }

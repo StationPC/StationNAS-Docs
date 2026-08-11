@@ -1,0 +1,11 @@
+{
+  "title": "Help Center",
+  "pages": [
+    "index",
+    "quick-start",
+    "tutorials",
+    "troubleshooting",
+    "changelog",
+    "support"
+  ]
+}
