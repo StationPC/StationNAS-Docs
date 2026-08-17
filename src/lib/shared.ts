@@ -6,7 +6,7 @@ export const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'http://local
 
 // fill this with your actual GitHub info, for example:
 export const gitConfig = {
-  user: 'fuma-nama',
-  repo: 'fumadocs',
+  user: 'StationPC',
+  repo: 'StationNAS-Docs',
   branch: 'main',
 };
