@@ -3,7 +3,7 @@ import '../global.css';
 import { Inter } from 'next/font/google';
 import { i18nProvider } from 'fumadocs-ui/i18n';
 import { translations } from '@/lib/layout.shared';
-import { getLocaleConfig } from '@/lib/locales.generated';
+import { getLocaleConfig } from '@/lib/i18n';
 import type { Metadata } from 'next';
 import { siteUrl } from '@/lib/shared';
 

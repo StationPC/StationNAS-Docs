@@ -52,8 +52,6 @@ npm run dev
 提交代码前建议执行：
 
 ```bash
-npm run i18n:test
-npm run i18n:check
 npm run types:check
 npm run build
 ```
@@ -73,8 +71,8 @@ npm run build
 │   │   ├── llms.txt/       # LLM 文档索引
 │   │   └── llms-full.txt/  # 完整文档文本
 │   ├── components/         # 通用组件和 MDX 组件配置
-│   └── lib/                # 内容源、国际化和布局配置
-├── middleware.ts           # 语言协商和 Markdown 内容重写
+│   ├── lib/                # 内容源、国际化和布局配置
+│   └── proxy.ts            # 语言协商和 Markdown 内容重写
 ├── source.config.ts        # Fumadocs/MDX 内容配置
 ├── next.config.mjs         # Next.js 配置
 └── package.json            # 依赖和脚本
@@ -87,7 +85,7 @@ npm run build
 ## 编写人员指南
 
 - [Fumadocs 常用内置组件编写指南](docs/fumadocs-components.md)：介绍提示框、卡片、代码块、选项卡、步骤、折叠面板、文件树、类型表格和可缩放图片等组件。
-- [多语言文档维护工作流](docs/localization-workflow.md)：介绍中文单一内容源、XLIFF、Weblate、审核和 GitHub PR 发布流程。
+- [多语言文档维护工作流](docs/localization-workflow.md)：介绍中文单一内容源、GitLocalize 翻译、审核和 GitHub PR 发布流程。
 
 ## 编写文档
 
@@ -137,7 +135,7 @@ station --version
 }
 ```
 
-4. 如需同步英文内容，在 `content/docs/en/` 中创建对应页面，并更新英文目录下的 `meta.json`。
+4. 英文翻译由 GitLocalize 在源文件变化后自动生成 PR，无需手动创建英文页面；只需保持英文目录的 `meta.json` 与中文目录的页面顺序一致。
 
 页面文件建议使用小写 kebab-case 命名，例如 `network-settings.mdx`。
 
@@ -187,7 +185,7 @@ Fumadocs 的默认 MDX 组件已经在 `src/components/mdx.tsx` 中注册。`Cal
 - `/zh/docs` 对应中文文档。
 - `/en/docs` 会重定向到 `/docs`。
 
-Fumadocs 根据 `content/docs/en` 和 `content/docs/zh` 自动读取对应语言的内容。新增语言时，需要同时更新语言配置、内容目录和界面翻译。
+Fumadocs 根据 `content/docs/en` 和 `content/docs/zh` 自动读取对应语言的内容。中文是人工编写的源语言，英文由 [GitLocalize](https://gitlocalize.com/) 翻译并通过 PR 合并，详见[多语言文档维护工作流](docs/localization-workflow.md)。新增语言时，需要同时更新语言配置、内容目录和界面翻译。
 
 ## 框架配置
 
@@ -247,7 +245,7 @@ export const gitConfig = {
 | `/llms-full.txt` | 聚合后的完整文档文本 |
 | `/docs/页面路径.md` | 获取指定页面的 Markdown 内容 |
 
-`middleware.ts` 同时负责语言路由处理，以及根据 `.md` 后缀或请求头返回 Markdown 内容。
+`src/proxy.ts`(Next.js 16 中替代 `middleware.ts`)同时负责语言路由处理，以及根据 `.md` 后缀或请求头返回 Markdown 内容。
 
 ## 生产部署
 

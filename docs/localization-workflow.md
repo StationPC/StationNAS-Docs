@@ -1,77 +1,70 @@
 # 多语言文档维护工作流
 
+本项目使用 [GitLocalize](https://gitlocalize.com/) 管理文档翻译。GitLocalize 直接连接 GitHub 仓库，译者在网页端翻译仓库中的 MDX 文件，完成后以 Pull Request 的形式提交回本仓库，合并后即发布。
+
+这种方案没有本地生成步骤、无需维护翻译交换文件，也不需要自托管翻译服务。
+
 ## 基本原则
 
-- `content/docs/zh/` 是唯一人工编写的文档源。
-- 其他语言目录由翻译管线生成，不直接编辑。
-- `localization/xliff/` 是 Weblate 与仓库交换翻译内容的接口。
-- GitHub Pull Request 是最终发布审批入口。
+- `content/docs/zh/` 是唯一人工编写的文档源（源语言：简体中文）。
+- `content/docs/en/` 由 GitLocalize 翻译生成，译者不应直接在本地编辑英文内容。
+- 两种语言的目录结构和文件名必须一致（例如 `quick-start/da400-install.mdx`），GitLocalize 才能正确映射源文件与译文文件。
+- GitLocalize 完成翻译后自动创建 PR，由维护者审核合并后发布。
+
+## 首次配置
+
+在 GitLocalize 上配置一次：
+
+1. 使用 GitHub 账号登录 [GitLocalize](https://gitlocalize.com/)，连接本仓库。
+2. 创建项目，选择 **File-based** 翻译方式。
+3. 源语言选择 **Chinese (Simplified)**，目标语言选择 **English**。
+4. 添加文件路径映射：
+
+   | 源文件 | 目标文件 |
+   | --- | --- |
+   | `content/docs/zh/**/*.mdx` | `content/docs/en/**/*.mdx` |
+
+   `meta.json` 由维护者人工维护（标题翻译），不交给 GitLocalize，避免 `pages` 数组中的文件名被误译。
+5. 开启 Markdown 的“不翻译代码块/行内代码”保护，确保代码、组件标签结构、URL 和图片路径不会被误译。
+6. 为 GitLocalize 机器人配置仓库写权限，翻译提交使用专用分支（如 `gitlocalize/`），并启用 Pull Request 工作流。
 
 ## 日常流程
 
-中文作者修改或新增 MDX 后执行：
+中文作者修改或新增 MDX 后，直接提交并合并到 `main`：
 
 ```bash
-npm run i18n:sync
+git add content/docs/zh
+git commit -m "docs: update ..."
+git push
 ```
 
-该命令会解析 MDX AST，更新源 XLIFF、各目标语言 XLIFF、语言配置、翻译状态和已发布译文。已有译文会被保留并标为过期，新句子暂时回退为中文。代码块、行内代码、URL、MDX 表达式和组件结构不会进入翻译单元。
+GitLocalize 会检测源文件变化，在平台上标记过期的翻译片段。译者完成翻译后创建 PR，维护者审核时重点确认：
 
-Weblate 从 GitHub 拉取 `localization/xliff/*.xlf`。机器翻译服务只产生建议；译者在 Weblate 中修改，审核者将完成的单元标记为 Final。Weblate 应把译文推送到同一仓库的服务分支并创建 PR。
+- 代码块、行内代码、URL 和图片路径未被翻译；
+- 组件属性（如 `<Card title="...">`）中的文本翻译正确，结构未被破坏；
+- `meta.json` 的 `pages` 文件名保持不变。
 
-翻译 PR 创建后，GitHub Actions 会运行：
+合并 PR 后英文文档即更新，无需任何本地生成步骤。
+
+## 本地校验
+
+翻译相关没有额外的本地脚本。提交前运行常规检查：
 
 ```bash
-npm run i18n:sync
-npm run i18n:check:release
+npm run types:check
+npm run build
 ```
-
-生成的 MDX 和导航文件会自动提交回该 PR。高风险页面只有在对应语言的全部单元均为 Final 时才能通过发布检查。
-
-## Weblate 组件配置
-
-1. 在 `localization/weblate/` 中复制环境模板并启动服务：
-
-   ```bash
-   cp environment.example environment
-   docker compose up -d
-   ```
-
-2. 在 Weblate 创建项目和组件，连接本 GitHub 仓库。
-3. Source language 选择简体中文，文件格式选择 XLIFF 2.0。
-4. File mask 使用 `localization/xliff/*.xlf`，基础文件使用 `localization/xliff/zh.xlf`。
-5. 将 Repository push URL 配置为具有服务分支写入权限的 GitHub 凭据，服务分支使用 `weblate/` 或 `l10n/` 前缀，并启用 Pull Request 工作流。
-6. 导入 `localization/glossary.yml` 中的术语，并开启项目翻译记忆。
-7. 在 Weblate 管理后台配置按量计费的云翻译 API；API 密钥不得提交到仓库。
-
-正式接入前，使用 `index.mdx` 验证 frontmatter、正文、`<Card title="..." />` 和链接均能正确往返。
-
-## 风险与状态
-
-页面通过 frontmatter 的 `translationRisk` 标记风险：
-
-```yaml
-translationRisk: high
-```
-
-安装、升级、数据删除、恢复、安全和关键故障处理页面使用 `high`；其他页面默认为 `normal`。中文变更后，旧译文自动变为 `stale`，站点会显示过期提示，但不会阻塞中文内容发布。
 
 ## 新增语言
 
-在 `localization/config.yml` 的 `locales` 中增加语言，然后执行 `npm run i18n:sync`。语言配置包含：
+在 GitLocalize 项目中添加目标语言，同时：
 
-- 内部路由 ID；
-- BCP 47 HTML 标签；
-- 语言选择器显示名称；
-- `ltr` 或 `rtl` 方向；
-- 搜索分词方式。
-
-新增语言前应根据真实访问、用户、销售和支持工单数据评估。每次最多增加两种语言；RTL 语言必须额外检查布局。
+1. 在 `src/lib/i18n.ts` 的 `localeConfigs` 和 `languages` 中增加对应语言；
+2. 在 `content/docs/` 下创建对应语言目录（可由 GitLocalize 首次翻译时生成）；
+3. 为 RTL 语言额外检查布局；
+4. 更新 GitLocalize 的路径映射以覆盖新语言。
 
 ## 运维要求
 
 - 部署文档站时设置 `NEXT_PUBLIC_SITE_URL`，确保 canonical、Open Graph 和 `hreflang` 使用生产域名。
-- 每日备份 PostgreSQL 和 Weblate 数据卷。
-- 每月导出翻译记忆 TMX 和术语 TBX。
-- 升级 Weblate 前先在备份副本上运行 XLIFF 往返测试。
-- 提交前始终运行 `npm run i18n:check`、`npm run types:check` 和 `npm run build`。
+- 内容或导航变更后，检查 `/docs`、`/zh/docs`、搜索、内部链接和移动端布局。

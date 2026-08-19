@@ -12,21 +12,7 @@ import { getMDXComponents } from '@/components/mdx';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { gitConfig } from '@/lib/shared';
-import { Callout } from 'fumadocs-ui/components/callout';
-import { localeConfigs, sourceLanguage } from '@/lib/locales.generated';
-
-const translationNotices = {
-  en: {
-    title: 'Translation review pending',
-    body: 'This page may not include the latest changes from the Chinese source.',
-    link: 'Read the current Chinese version',
-  },
-  zh: {
-    title: '译文尚待审核',
-    body: '此页面可能尚未包含中文源文档的最新更改。',
-    link: '查看最新中文版本',
-  },
-} as const;
+import { localeConfigs } from '@/lib/i18n';
 
 export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -35,11 +21,6 @@ export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>)
 
   const MDX = page.data.body;
   const markdownUrl = getPageMarkdownUrl(page).url;
-  const sourcePage = source.getPage(params.slug, sourceLanguage);
-  const notice = translationNotices[params.lang as keyof typeof translationNotices]
-    ?? translationNotices.en;
-  const showTranslationNotice = params.lang !== sourceLanguage
-    && page.data.translationStatus !== 'approved';
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
@@ -53,12 +34,6 @@ export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>)
         />
       </div>
       <DocsBody>
-        {showTranslationNotice && (
-          <Callout title={notice.title} type="warn">
-            {notice.body}{' '}
-            {sourcePage && <a href={sourcePage.url}>{notice.link}</a>}
-          </Callout>
-        )}
         <MDX
           components={getMDXComponents({
             // this allows you to link to other pages with relative file paths

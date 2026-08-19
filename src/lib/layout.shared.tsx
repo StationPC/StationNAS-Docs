@@ -1,8 +1,7 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
-import { i18n } from './i18n';
+import { i18n, localeConfigs } from './i18n';
 import { uiTranslations } from 'fumadocs-ui/i18n';
 import { appName, gitConfig } from './shared';
-import { localeConfigs } from './locales.generated';
 
 // UI translations: official Fumadocs language pack + per-locale display names
 // `displayName` is the label shown in the language switcher.

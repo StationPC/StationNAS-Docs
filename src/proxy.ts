@@ -35,7 +35,7 @@ const { rewrite: rewriteSuffixDefault } = rewritePath(
   `/${i18n.defaultLanguage}${docsContentRoute}{/*path}/content.md`,
 );
 
-export default function proxy(request: NextRequest, event: NextFetchEvent) {
+export function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
 
   // 1. Handle `.md` suffix and markdown-preferred requests (e.g. LLM crawlers).

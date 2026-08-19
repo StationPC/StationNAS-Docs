@@ -9,7 +9,7 @@ This repository is a bilingual documentation site built with Next.js 16, React 1
 - `src/lib/`: content loading, internationalization, layout options, and utilities.
 - `content/docs/en/` and `content/docs/zh/`: English and Chinese MDX documentation. Keep the two language trees structurally aligned.
 - `source.config.ts`: Fumadocs collection and MDX configuration.
-- `middleware.ts`: locale and content-negotiation middleware.
+- `src/proxy.ts`: locale and content-negotiation middleware (Next.js 16 renamed `middleware.ts` to `proxy.ts`).
 - `src/app/global.css`: Tailwind and Fumadocs theme imports plus global overrides.
 
 Generated directories such as `.next/` and `.source/` must not be edited manually.
