@@ -1,0 +1,32 @@
+# 版本控制
+.git
+.gitignore
+.github
+
+# 依赖
+node_modules
+
+# 构建产物
+.next
+out
+build
+
+# 内容元数据（由 npm ci 的 postinstall 生成，避免用本地旧文件覆盖）
+.source
+
+# 类型信息
+*.tsbuildinfo
+next-env.d.ts
+
+# 测试与覆盖率
+coverage
+
+# 环境变量与平台痕迹（避免把密钥打进镜像）
+.env
+.env*.local
+.vercel
+
+# 文档与部署配置（不参与构建）
+docs
+README.md
+README.zh-CN.md

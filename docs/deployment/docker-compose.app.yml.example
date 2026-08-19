@@ -1,0 +1,19 @@
+# 服务器端 app 容器编排示例（宿主机 nginx 方案）
+#
+# 说明：deploy.yml 的自动部署使用 `docker run` 管理同名容器，与本文件**二选一**：
+#   - 使用自动部署（默认）：无需本文件，push main 即可。
+#   - 手动用 compose 管理：`cp docker-compose.app.yml.example docker-compose.yml && docker compose up -d`，
+#     之后需手动 pull 更新，或自行接入 CI。
+#
+# NEXT_PUBLIC_SITE_URL 是构建时内联变量（在 GitHub Actions 构建期注入），运行时无需设置。
+
+services:
+  app:
+    image: ghcr.io/stationpc/stationnas-docs:latest
+    container_name: stationnas-docs
+    restart: unless-stopped
+    ports:
+      # 只绑本机回环地址，由宿主机 nginx 反代，不暴露公网
+      - "127.0.0.1:3000:3000"
+    labels:
+      - "app=stationnas-docs"
