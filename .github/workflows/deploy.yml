@@ -38,9 +38,11 @@ jobs:
           tags: |
             ghcr.io/stationpc/stationnas-docs:${{ github.sha }}
             ghcr.io/stationpc/stationnas-docs:latest
-          # NEXT_PUBLIC_SITE_URL 为构建时内联变量（仓库 variable）
+          # NEXT_PUBLIC_* 为构建时内联变量（仓库 variables）
           build-args: |
             NEXT_PUBLIC_SITE_URL=${{ vars.NEXT_PUBLIC_SITE_URL }}
+            NEXT_PUBLIC_POSTHOG_KEY=${{ vars.NEXT_PUBLIC_POSTHOG_KEY }}
+            NEXT_PUBLIC_POSTHOG_HOST=${{ vars.NEXT_PUBLIC_POSTHOG_HOST }}
 
   deploy:
     name: Deploy to production server
@@ -53,7 +55,11 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
-          script: |
+          envs: FEEDBACK_API_URL,FEEDBACK_API_TOKEN
+        env:
+          FEEDBACK_API_URL: ${{ secrets.FEEDBACK_API_URL }}
+          FEEDBACK_API_TOKEN: ${{ secrets.FEEDBACK_API_TOKEN }}
+        script: |
             set -e
             IMAGE=ghcr.io/stationpc/stationnas-docs:${{ github.sha }}
             docker pull "$IMAGE"
@@ -61,6 +67,8 @@ jobs:
             docker run -d --name stationnas-docs \
               --restart unless-stopped \
               -p 127.0.0.1:3000:3000 \
+              -e FEEDBACK_API_URL="$FEEDBACK_API_URL" \
+              -e FEEDBACK_API_TOKEN="$FEEDBACK_API_TOKEN" \
               --label "deploy.sha=${{ github.sha }}" \
               "$IMAGE"
             # 清理旧镜像：保留最近 5 个 sha 镜像（latest 指向最新，不受影响），删除更旧的
