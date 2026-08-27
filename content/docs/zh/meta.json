@@ -1,4 +1,4 @@
 {
   "title": "帮助中心",
-  "pages": ["index", "quick-start", "tutorials", "troubleshooting", "changelog", "support"]
+  "pages": ["index", "quick-start", "app-guide","explore", "faq", "changelog", "contact"]
 }
