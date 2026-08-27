@@ -5,6 +5,7 @@ import {
   DocsPage,
   DocsTitle,
   MarkdownCopyButton,
+  PageLastUpdate,
   ViewOptionsPopover,
 } from 'fumadocs-ui/layouts/docs/page';
 import { notFound } from 'next/navigation';
@@ -13,6 +14,7 @@ import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
 import { gitConfig } from '@/lib/shared';
 import { localeConfigs } from '@/lib/i18n';
+import { Feedback } from '@/components/feedback-adapter';
 
 export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>) {
   const params = await props.params;
@@ -41,6 +43,8 @@ export default async function Page(props: PageProps<'/[lang]/docs/[[...slug]]'>)
           })}
         />
       </DocsBody>
+      <Feedback locale={params.lang} path={page.url} title={page.data.title} />
+      {page.data.lastModified && <PageLastUpdate date={page.data.lastModified} />}
     </DocsPage>
   );
 }

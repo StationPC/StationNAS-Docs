@@ -6,6 +6,7 @@ import { translations } from '@/lib/layout.shared';
 import { getLocaleConfig } from '@/lib/i18n';
 import type { Metadata } from 'next';
 import { siteUrl } from '@/lib/shared';
+import { Analytics } from '@/components/analytics';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -27,7 +28,10 @@ export default async function Layout({ params, children }: LayoutProps<'/[lang]'
       suppressHydrationWarning
     >
       <body className="flex flex-col min-h-screen">
-        <RootProvider i18n={i18nProvider(translations, lang)}>{children}</RootProvider>
+        <RootProvider i18n={i18nProvider(translations, lang)}>
+          <Analytics locale={lang} />
+          {children}
+        </RootProvider>
       </body>
     </html>
   );
