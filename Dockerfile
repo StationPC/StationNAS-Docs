@@ -2,6 +2,9 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 
+# lastModified() reads Git commit timestamps during the production build.
+RUN apk add --no-cache git
+
 # 依赖清单 + 全部源码
 # 注意：npm ci 的 postinstall（fumadocs-mdx）需要 source.config.ts / content 生成 .source，
 # 因此必须 COPY . . 之后再安装依赖
