@@ -1,0 +1,89 @@
+---
+title: '2026.09.03 System Update Notes'
+---
+
+## Please Read Before Updating
+
+### Applicable Products
+This update applies to products running the StationOS Pro system. Before upgrading, please confirm the corresponding processor architecture according to
+the product model.
+
+- DA Series: DA400 Series
+
+### Upgrade Notice
+1. If you need to use the features described in this document, please upgrade the system firmware, application suite, or client to the corresponding
+version or later.
+2. Some new features in the application suite require a specified system firmware version. If the system firmware version is lower than the minimum
+compatible version, application update notifications may not be received, or related features may not function properly.
+
+## StationOS Pro System Firmware
+
+### Version Information
+System firmware version: v0.33.0.6
+
+This update includes interface changes. To ensure proper functionality, we recommend upgrading the firmware, client, and related applications to the
+latest versions.
+
+### [System]
+- Added AI accelerator card monitoring and desktop widgets.
+- Improved AI accelerator thermal control, fan debounce, and dynamic monitoring data collection.
+- Refined process CPU monitoring metrics for better accuracy.
+- Kept SSH enabled state on startup and improved device model suffix display.
+- Fixed occasional shutdown failure and the missing update banner during system update refresh.
+- Hid Beta update options and added an update details documentation entry.
+
+### [Storage]
+- Supported mounting during RAID sync to keep storage space available.
+- Added storage-space creation stage events and progress dialogs.
+- Decoupled storage-pool status from storage-space status and improved creation flow.
+- Added classification for unknown filesystem errors and improved external storage mount error messages.
+- Reported structured external storage mount failure reasons for better error differentiation.
+- Fixed degraded-array misjudgment and abnormal external storage mount status issues.
+
+### [Files]
+- Added folder upload precheck support and improved the upload flow.
+- Improved large-batch uploads, progress synchronization, and task scheduling.
+- Fixed filename sorting, duplicate file checking, and EXIF jump icon issues.
+- Improved external storage pagination, thumbnail loading, and uploaded image thumbnail display.
+- Unified file-management header and status bar behavior for more consistent list interactions.
+
+### [Backup]
+- Improved album backup thumbnail processing.
+- Added one-touch backup publishing for hot-plugged external disks.
+- Tightened the one-touch backup button trigger logic to reduce false triggers.
+- Fixed retry handling for failed one-touch disk insertion publishing.
+
+### [App Store / Docker]
+- Supported host-path mapping for data-volume configuration and expanded app-access path settings.
+- Fixed desktop app status desynchronization after reboot.
+- Improved Compose deployment terminal logs and live log display.
+- Fixed Docker search layout issues, overly long network names, and storage migration progress handling.
+- Added circular progress indicators and badges for app install/download states.
+
+### [AI / Station AI]
+- Improved local model loading, download progress, on-demand loading, and idle unloading.
+- Tuned Station AI routing and vector models to reduce memory usage and improve match accuracy.
+- Fixed routing issues for network queries, missing numeric parameters, summary output, and false service-availability errors.
+- Improved multilingual examples, skill declarations, and safety controls.
+
+### [Notifications / Device]
+- Passed through peripheral notification action types and plug/unplug event types.
+- Reduced system log noise by suppressing some debug output.
+- Fixed network error prompts after shutdown, storage-space creation debug logs, and related issues.
+
+## Client
+## iOS & Android Client
+App version: v0.33.0
+
+- Added AI accelerator monitoring, with a Home widget and resource-monitoring details for the model, utilization, memory, temperature, and runtime status.
+- Added independent control for showing or hiding the AI accelerator widget, with improved real-time updates and status alerts.
+- Improved memory, disk, and device-health monitoring with clearer explanations for abnormal states.
+- Improved SSD cache status handling for damaged and degraded states, with failure details and repair guidance.
+- Improved external-storage capacity display and storage-space recognition to reduce stale or misleading data.
+- Enhanced one-touch backup task, source-device, partition, status, and file-count display, with clearer SD card and USB priority guidance.
+- Improved photo-backup progress, speed, and list refresh after the device resumes from screen-off.
+- Improved photo synchronization scans and similar-photo indexing progress to reduce duplicate checks and inaccurate totals.
+- Added real-time file-thumbnail updates and improved image zoom behavior after original-image loading.
+- Improved HTTPS connections, redirects, foreground recovery, and WebSocket reconnection for greater connection stability.
+- Improved App update prompts, update badges, OTA and system-reset progress messages, with fewer repeated prompts and better localization.
+- Improved first-device setup, AI Assistant storage warnings, two-factor authentication, avatar updates, and App Store screenshot display.
