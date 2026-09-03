@@ -24,7 +24,7 @@ System firmware version: v0.33.0.6
 This update includes interface changes. To ensure proper functionality, we recommend upgrading the firmware, client, and related applications to the
 latest versions.
 
-### [System]
+### System
 - Added AI accelerator card monitoring and desktop widgets.
 - Improved AI accelerator thermal control, fan debounce, and dynamic monitoring data collection.
 - Refined process CPU monitoring metrics for better accuracy.
@@ -32,7 +32,7 @@ latest versions.
 - Fixed occasional shutdown failure and the missing update banner during system update refresh.
 - Hid Beta update options and added an update details documentation entry.
 
-### [Storage]
+### Storage
 - Supported mounting during RAID sync to keep storage space available.
 - Added storage-space creation stage events and progress dialogs.
 - Decoupled storage-pool status from storage-space status and improved creation flow.
@@ -40,33 +40,33 @@ latest versions.
 - Reported structured external storage mount failure reasons for better error differentiation.
 - Fixed degraded-array misjudgment and abnormal external storage mount status issues.
 
-### [Files]
+### Files
 - Added folder upload precheck support and improved the upload flow.
 - Improved large-batch uploads, progress synchronization, and task scheduling.
 - Fixed filename sorting, duplicate file checking, and EXIF jump icon issues.
 - Improved external storage pagination, thumbnail loading, and uploaded image thumbnail display.
 - Unified file-management header and status bar behavior for more consistent list interactions.
 
-### [Backup]
+### Backup
 - Improved album backup thumbnail processing.
 - Added one-touch backup publishing for hot-plugged external disks.
 - Tightened the one-touch backup button trigger logic to reduce false triggers.
 - Fixed retry handling for failed one-touch disk insertion publishing.
 
-### [App Store / Docker]
+### App Store / Docker
 - Supported host-path mapping for data-volume configuration and expanded app-access path settings.
 - Fixed desktop app status desynchronization after reboot.
 - Improved Compose deployment terminal logs and live log display.
 - Fixed Docker search layout issues, overly long network names, and storage migration progress handling.
 - Added circular progress indicators and badges for app install/download states.
 
-### [AI / Station AI]
+### AI / Station AI
 - Improved local model loading, download progress, on-demand loading, and idle unloading.
 - Tuned Station AI routing and vector models to reduce memory usage and improve match accuracy.
 - Fixed routing issues for network queries, missing numeric parameters, summary output, and false service-availability errors.
 - Improved multilingual examples, skill declarations, and safety controls.
 
-### [Notifications / Device]
+### Notifications / Device
 - Passed through peripheral notification action types and plug/unplug event types.
 - Reduced system log noise by suppressing some debug output.
 - Fixed network error prompts after shutdown, storage-space creation debug logs, and related issues.
